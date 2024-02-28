@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+   body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+h1 {
+    color: #007bff;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+
+button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+
+<form action="/RsendReminder" method="post">
+    <label>Select User(s):</label><br>
+    <!-- Select All Checkbox -->
+    <input type="checkbox" id="selectAllCheckbox">
+    <label for="selectAllCheckbox">Send Everyone</label><br>
+    
+    <!-- User Checkboxes -->
+    <th:block th:each="user : ${users}">
+        <label>
+            <input type="checkbox" name="userIds" th:value="${user.empid}">
+            <span th:text="${user.fullname}"></span>
+        </label><br>
+    </th:block>
+    <br>
+    <label for="message">Reminder Message:</label><br>
+    <textarea id="message" name="message" rows="4" cols="50"></textarea><br>
+    <button type="submit">Send Reminder</button>
+</form>
+ 
+<script>
+    // Function to handle Select All checkbox
+    document.getElementById('selectAllCheckbox').addEventListener('change', function() {
+        var checkboxes = document.getElementsByName('userIds');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = this.checked;
+        }
+    });
+</script>
+</body>
+</html>
